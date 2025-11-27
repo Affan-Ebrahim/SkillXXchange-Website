@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import SuccessModal from '../components/SuccessModal';
 
 export default function ShareSkill() {
   const [formData, setFormData] = useState({
@@ -7,10 +8,13 @@ export default function ShareSkill() {
     description: '',
     skills: '',
   });
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Skill shared:', formData);
+    setShowSuccess(true);
+    setFormData({ title: '', category: '', description: '', skills: '' });
   };
 
   const handleChange = (
@@ -23,8 +27,10 @@ export default function ShareSkill() {
   };
 
   return (
-    <div>
-      <section className="bg-gradient-to-r from-[#00BFA5] to-[#00897B] text-white py-20">
+    <>
+      <SuccessModal isOpen={showSuccess} onClose={() => setShowSuccess(false)} message="Skill shared successfully!" />
+      <div>
+        <section className="bg-gradient-to-r from-[#00BFA5] to-[#00897B] text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h1 className="text-4xl md:text-5xl font-bold mb-6">Share Your Skill</h1>
           <p className="text-xl max-w-3xl mx-auto">
@@ -117,6 +123,7 @@ export default function ShareSkill() {
           </form>
         </div>
       </section>
-    </div>
+      </div>
+    </>
   );
 }

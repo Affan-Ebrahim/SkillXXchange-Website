@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SuccessModal from '../components/SuccessModal';
 
 export default function Signup() {
   const [formData, setFormData] = useState({
@@ -8,10 +9,13 @@ export default function Signup() {
     password: '',
     confirmPassword: '',
   });
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Signup attempt:', formData);
+    setShowSuccess(true);
+    setFormData({ name: '', email: '', password: '', confirmPassword: '' });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,8 +26,10 @@ export default function Signup() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full">
+    <>
+      <SuccessModal isOpen={showSuccess} onClose={() => setShowSuccess(false)} message="Account created successfully!" />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full">
         <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h2>
@@ -158,6 +164,7 @@ export default function Signup() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
+import SuccessModal from '../components/SuccessModal';
 
 export default function Login() {
   const [formData, setFormData] = useState({
@@ -7,10 +8,13 @@ export default function Login() {
     password: '',
     remember: false,
   });
+  const [showSuccess, setShowSuccess] = useState(false);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     console.log('Login attempt:', formData);
+    setShowSuccess(true);
+    setFormData({ email: '', password: '', remember: false });
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -22,8 +26,10 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-md w-full">
+    <>
+      <SuccessModal isOpen={showSuccess} onClose={() => setShowSuccess(false)} message="Logged in successfully!" />
+      <div className="min-h-screen bg-gray-50 flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-md w-full">
         <div className="bg-white rounded-lg shadow-lg p-8">
           <div className="text-center mb-8">
             <h2 className="text-3xl font-bold text-gray-900 mb-2">Get Started</h2>
@@ -142,6 +148,7 @@ export default function Login() {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </>
   );
 }
